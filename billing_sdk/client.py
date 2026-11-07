@@ -1,5 +1,6 @@
 """Клиенты платёжного шлюза."""
 import uuid
+from decimal import Decimal
 
 from .models import Charge, RefundResult
 
@@ -33,4 +34,9 @@ class GatewayClientV2:
 
     def refund(self, charge_id, amount, idempotency_key=None):
         key = idempotency_key or str(uuid.uuid4())
-        return RefundResult(charge_id=charge_id, amount=float(amount), status="ok")
+        return RefundResult(
+            charge_id=charge_id,
+            amount=Decimal(str(amount)),
+            status="ok",
+            idempotency_key=key,
+        )

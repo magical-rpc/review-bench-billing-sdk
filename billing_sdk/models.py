@@ -14,5 +14,6 @@ class Charge:
 @dataclass
 class RefundResult:
     charge_id: str
-    amount: float
+    amount: Decimal
     status: str
+    idempotency_key: str = ""
