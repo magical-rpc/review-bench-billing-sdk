@@ -15,7 +15,10 @@ def test_v2_charge_keeps_decimal_amount():
     assert result["idempotency_key"]
 
 
-def test_v2_refund_returns_result():
+def test_v2_refund_returns_decimal_and_key():
     client = GatewayClientV2()
     result = client.refund("ch_2", Decimal("10.05"), idempotency_key="refund-1")
     assert result.status == "ok"
+    assert result.amount == Decimal("10.05")
+    assert isinstance(result.amount, Decimal)
+    assert result.idempotency_key == "refund-1"
